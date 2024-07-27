@@ -1,5 +1,5 @@
 name: Report a bug
-description: Tell us about a bug or issue you may have identified in YOUR_PROJECT_NAME.
+description: Tell us about a bug or issue you may have identified in Math_Flag.
 title: "Provide a general summary of the issue"
 labels: [bug]
 assignees: "DefinetlyNotAI"
@@ -43,7 +43,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: What version of YOUR_PROJECT_NAME are you using?
+      label: What version of Math_Flag are you using?
       placeholder: "e.g., v5.1.0 or v4.5.2"
     validations:
       required: true
