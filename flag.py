@@ -54,11 +54,20 @@ def is_stack(n):
 
 def is_sequential(n):
     str_n = str(n)
-    return len(str_n) == 4 and str_n == ''.join(sorted(str_n)) and len(set(str_n)) == 4
+    diff = int(str_n[0])
+    for i in range(1, len(str_n)):
+        if int(str_n[i]) - diff != 1:
+            return False
+        diff = int(str_n[i])
+    return True
 
 
 def is_repetitive(n):
-    return len(set(str(n))) == 1
+    str_n = str(n)
+    for i in range(len(str_n) // 2):
+        if str_n[i] != str_n[-i-1]:
+            return False
+    return True
 
 
 def is_factorable(n):
