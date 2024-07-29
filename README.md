@@ -11,7 +11,6 @@ This comprehensive guide is here to equip you with everything you need to use Ma
 
 <div align="center">
     <a href="https://github.com/DefinetlyNotAI/Math_Flag/issues"><img src="https://img.shields.io/github/issues/DefinetlyNotAI/Math_Flag" alt="GitHub Issues"></a>
-    <a href="https://github.com/DefinetlyNotAI/Math_Flag/tags"><img src="https://img.shields.io/github/v/tag/DefinetlyNotAI/Math_Flag" alt="GitHub Tag"></a>
     <a href="https://github.com/DefinetlyNotAI/Math_Flag/graphs/commit-activity"><img src="https://img.shields.io/github/commit-activity/t/DefinetlyNotAI/Math_Flag" alt="GitHub Commit Activity"></a>
     <a href="https://github.com/DefinetlyNotAI/Math_Flag/languages"><img src="https://img.shields.io/github/languages/count/DefinetlyNotAI/Math_Flag" alt="GitHub Language Count"></a>
     <a href="https://github.com/DefinetlyNotAI/Math_Flag/actions"><img src="https://img.shields.io/github/check-runs/DefinetlyNotAI/Math_Flag/main" alt="GitHub Branch Check Runs"></a>
