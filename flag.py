@@ -1,124 +1,70 @@
-import argparse
-import json
-
-
-def is_prime(n):
-    if n <= 1:
-        return False
-    elif n <= 3:
-        return True
-    elif n % 2 == 0 or n % 3 == 0:
-        return False
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-        i += 6
-    return True
-
-
-def is_composite(n):
-    return n > 1 and not is_prime(n)
-
-
-def is_even(n):
-    return n % 2 == 0
-
-
-def is_odd(n):
-    return n % 2 != 0
-
-
-def is_palindromic(n):
-    return str(n) == str(n)[::-1]
-
-
 def is_decimal(n):
-    if int(n) != n:
-        return True
-    else:
-        return False
+    # A decimal has a non-integer part
+    return isinstance(n, float)
 
 
 def is_pair(n):
-    return n == 2
+    # Check if n is divisible by 2
+    return n % 2 == 0
 
 
 def is_dozen(n):
-    return n == 12
+    # Check if n is divisible by 12
+    return n % 12 == 0
 
 
 def is_stack(n):
-    return n == 64
+    # Check if n is divisible by 64
+    return n % 64 == 0
 
 
 def is_sequential(n):
-    str_n = str(n)
-    diff = int(str_n[0])
-    for i in range(1, len(str_n)):
-        if int(str_n[i]) - diff != 1:
-            return False
-        diff = int(str_n[i])
-    return True
-
-
-def is_repetitive(n):
-    str_n = str(n)
-    for i in range(len(str_n) // 2):
-        if str_n[i] != str_n[-i-1]:
-            return False
-    return True
-
-
-def is_factorable(n):
-    if n == 1:
-        return False
-    for i in range(2, int(n**0.5) + 1):
-        if n % i == 0:
+    # Check if the number is the first element of a sequence where the next element differs by 0, 1, 2, ..., 9
+    for diff in range(10):  # Iterate through possible differences
+        potential_next = n + diff
+        if potential_next <= n:  # Ensure the potential next number is greater than the current number
+            continue
+        # Check if the potential next number is valid and fits the criteria
+        if potential_next % 2 != 0 and potential_next % 3 != 0:
             return True
     return False
 
 
-def evaluate_flags(n):
-    try:
-        n = float(n)
-        flags = {
-            # Previous flags go here
-            "Decimal": is_decimal(n),
-            "Pair (2)": is_pair(n),
-            "Dozen (12)": is_dozen(n),
-            "Stack (64)": is_stack(n),
-            "Sequential Numbers": is_sequential(n),
-            "Repetitive Numbers": is_repetitive(n),
-            "Factorable Numbers": is_factorable(n),
-            "Composite Number": is_composite(n),
-            "Prime Number": is_prime(n),
-            "Even": is_even(n),
-            "Odd": is_odd(n),
-            "Palindromic Numbers": is_palindromic(n),
-        }
-        return flags
-    except Exception as e:
-        return f"Error: {e}"
+def is_repetitive(n):
+    # Convert the number to string and check for repeated characters
+    return len(set(str(n))) < len(str(n))
 
 
-def main():
-    parser = argparse.ArgumentParser(description='Evaluate mathematical flags of a number.')
-    parser.add_argument('number', type=str, help='Number to evaluate')
-    parser.add_argument('--json', action='store_true', help='Output flags in JSON format')
-
-    args = parser.parse_args()
-    flags = evaluate_flags(args.number)
-
-    if args.json:
-        print(json.dumps(flags))
-    else:
-        try:
-            for flag, value in flags.items():
-                print(f"{flag}: {value}")
-        except Exception as e:
-            print(f"Error: {e}")
+def is_factorable(n):
+    # A number is factorable if it can be expressed as a product of two smaller integers
+    return any(n % i == 0 for i in range(1, int(n ** 0.5) + 1)) and n > 1
 
 
-if __name__ == "__main__":
-    main()
+def is_composite(n):
+    # A composite number is a positive integer that has at least one divisor other than 1 and itself
+    return n > 1 and any(n % i == 0 for i in range(2, n))
+
+
+def is_prime(n):
+    # A prime number is greater than 1 and has no divisors other than 1 and itself
+    return n > 1 and all(n % i for i in range(2, int(n ** 0.5) + 1))
+
+
+def is_even(n):
+    # Check if n is divisible by 2
+    return n % 2 == 0
+
+
+def is_odd(n):
+    # Check if n is not divisible by 2
+    return n % 2 != 0
+
+
+def is_palindromic(n):
+    # A number is palindromic if it reads the same backward as forward
+    return str(n) == str(n)[::-1]
+
+
+def is_negative(n):
+    # Check if n is less than 0
+    return n < 0
