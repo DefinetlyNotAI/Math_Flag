@@ -2,7 +2,8 @@
 
 Welcome to Math_Flag 🌐,
 a cutting-edge tool
-designed to CHANGE_ME.
+designed to return all special mathematical flags for a number
+inputted either inputted by command line, or by calling it from a function.
 Crafted with python,
 it's an actively developed project that is
 aimed at CHANGE_ME.
