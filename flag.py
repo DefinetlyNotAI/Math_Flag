@@ -57,16 +57,41 @@ This analysis assumes that operations like string reversal (`str[::-1]`) and cou
 """
 
 
+import json
+import colorlog
+
+# Configure colorlog for logging messages with colors
+logger = colorlog.getLogger()
+logger.setLevel(colorlog.INFO)  # Set the log level to INFO to capture all relevant logs
+
+handler = colorlog.StreamHandler()
+formatter = colorlog.ColoredFormatter(
+    "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s",
+    datefmt=None,
+    reset=True,
+    log_colors={
+        "DEBUG": "cyan",
+        "INFO": "green",
+        "WARNING": "yellow",
+        "ERROR": "red",
+        "CRITICAL": "red",
+    },
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+
 class Check:
-    def __init__(self):
+    def __init__(self, use_json=False, show_errors=True):
         self.cache = {}
+        self.json = use_json
+        self.error = show_errors
 
     @staticmethod
     def __cache_key(func_name, arg):
-        # Generate a unique key for caching by combining the function name and the argument
         return f"{func_name}_{arg}"
 
-    def is_Decimal(self, n):
+    def _is_Decimal(self, n):
         key = self.__cache_key("decimal", n)
         if key in self.cache:
             return self.cache[key]
@@ -75,18 +100,18 @@ class Check:
         return result
 
     @staticmethod
-    def is_Dozen(n):
+    def _is_Dozen(n):
         return n == 12
 
     @staticmethod
-    def is_Stack(n):
+    def _is_Stack(n):
         return n == 64
 
-    def is_Sequential(self, n):
+    def _is_Sequential(self, n):
         key = self.__cache_key("sequential", n)
         if key in self.cache:
             return self.cache[key]
-        result = False  # Default to False until proven otherwise
+        result = False
         str_number = str(n)
         if len(str_number.removeprefix("-")) <= 2:
             return False
@@ -101,27 +126,18 @@ class Check:
         return result
 
     @staticmethod
-    def is_Repetitive(n):
-        # Convert the number to a string
+    def _is_Repetitive(n):
         n_str = str(n)
 
-        # Function to check if a pattern exists in the remaining part of the string
         def pattern_exists(pattern):
             return n_str.count(pattern) > 0
-
-        # Check for patterns starting from length 1 up to half the length of the string
         for i in range(1, len(n_str) // 2 + 1):
-            # Create a pattern by taking the first i characters repeated
             pattern = n_str[:i] * ((len(n_str) + i - 1) // i)
-
-            # Check if the pattern exists in the rest of the string
             if pattern_exists(pattern):
                 return True
-
-        # No repetitive pattern found
         return False
 
-    def is_Composite(self, n):
+    def _is_Composite(self, n):
         key = self.__cache_key("composite", n)
         if key in self.cache:
             return self.cache[key]
@@ -129,7 +145,7 @@ class Check:
         self.cache[key] = result
         return result
 
-    def is_Prime(self, n):
+    def _is_Prime(self, n):
         key = self.__cache_key("prime", n)
         if key in self.cache:
             return self.cache[key]
@@ -137,7 +153,7 @@ class Check:
         self.cache[key] = result
         return result
 
-    def is_Even(self, n):
+    def _is_Even(self, n):
         key = self.__cache_key("even", n)
         if key in self.cache:
             return self.cache[key]
@@ -145,7 +161,7 @@ class Check:
         self.cache[key] = result
         return result
 
-    def is_Odd(self, n):
+    def _is_Odd(self, n):
         key = self.__cache_key("odd", n)
         if key in self.cache:
             return self.cache[key]
@@ -153,7 +169,7 @@ class Check:
         self.cache[key] = result
         return result
 
-    def is_Palindromic(self, n):
+    def _is_Palindromic(self, n):
         key = self.__cache_key("palindromic", n)
         if key in self.cache:
             return self.cache[key]
@@ -161,7 +177,7 @@ class Check:
         self.cache[key] = result
         return result
 
-    def is_Negative(self, n):
+    def _is_Negative(self, n):
         key = self.__cache_key("negative", n)
         if key in self.cache:
             return self.cache[key]
@@ -170,29 +186,46 @@ class Check:
         return result
 
     def clear_cache(self):
-        # Method to clear the cache
         self.cache.clear()
 
-    def evaluate(self, num):
-        # Evaluate all relevant methods and print out the flags that are True
+    def evaluate(self, Number):
+        if not isinstance(Number, int):
+            if self.error is True:
+                colorlog.critical(f"Invalid input: {Number} is not an integer")
+            return None
+
         results = {}
         for attr in dir(self):
-            if callable(getattr(self, attr)) and attr.startswith('is'):
+            if callable(getattr(self, attr)) and attr.startswith('_is_'):
                 try:
-                    results[attr] = getattr(self, attr)(num)
+                    results[attr] = getattr(self, attr)(Number)
                 except Exception as e:
-                    print(f"Error evaluating {attr} for {num}: {e}")
+                    if self.error is True:
+                        colorlog.warning(f"Error evaluating {attr} for {Number}: {e}")
                     continue
         true_flags = [k for k, v in results.items() if v]
-        if true_flags:
-            print(f"For number {num}, the following flags are True:")
-            for flag in true_flags:
-                print(flag.removeprefix('is_'))
+
+        if self.json is True:
+            self.clear_cache()
+            return json.dumps(results)
         else:
-            print(f"No flags are True for number {num}.")
+            if true_flags:
+                modified_true_flags = [flag[4:] for flag in true_flags]
+
+                def join_with_commas_and_last_item(list_to_join):
+                    first_part, last_item = list_to_join[:-1], list_to_join[-1]
+                    first_part_str = ', '.join(first_part)
+                    return f"{first_part_str} and {last_item}"
+
+                joined_true_flags = join_with_commas_and_last_item(modified_true_flags)
+                self.clear_cache()
+                return f"{Number} is a {joined_true_flags} number"
+            else:
+                if self.error is True:
+                    colorlog.error(f"No flags are True for number {Number}. Which is impossible")
+                self.clear_cache()
+                return None
 
 
-# Example usage
-check = Check()
-check.evaluate(1234)
-check.clear_cache()  # Clearing the cache
+check = Check(use_json=False, show_errors=True)
+print(check.evaluate(1234))
