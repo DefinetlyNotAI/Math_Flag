@@ -1,6 +1,5 @@
 import argparse
 import json
-import math
 
 
 def is_prime(n):
@@ -63,44 +62,34 @@ def is_repetitive(n):
 
 
 def is_factorable(n):
-    # Check for negative numbers, 0, and 1 since they are not considered factorable under this definition
-    if n <= 1:
+    if n == 1:
         return False
-
-    # Iterate from 2 up to the square root of the number
-    for i in range(2, math.isqrt(n) + 1):
-        # If the number is divisible by any i, it is factorable
+    for i in range(2, int(n**0.5) + 1):
         if n % i == 0:
             return True
-
-    # If no factors found, the number is not factorable
     return False
-
-
-def is_negative(n):
-    return n < 0
 
 
 def evaluate_flags(n):
     try:
-        n = float(n)  # Convert the input to a float
+        n = float(n)
         flags = {
+            # Previous flags go here
             "Decimal": is_decimal(n),
             "Pair (2)": is_pair(n),
             "Dozen (12)": is_dozen(n),
             "Stack (64)": is_stack(n),
             "Sequential Numbers": is_sequential(n),
             "Repetitive Numbers": is_repetitive(n),
-            "Can Be Factored Numbers": is_factorable(n),
+            "Factorable Numbers": is_factorable(n),
             "Composite Number": is_composite(n),
             "Prime Number": is_prime(n),
             "Even": is_even(n),
             "Odd": is_odd(n),
-            "Negative Number": is_negative(n),
             "Palindromic Numbers": is_palindromic(n),
         }
         return flags
-    except ValueError as e:
+    except Exception as e:
         return f"Error: {e}"
 
 
