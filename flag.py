@@ -82,7 +82,7 @@ logger.addHandler(handler)
 
 
 class Check:
-    def __init__(self, use_json=False, show_errors=True):
+    def __init__(self, use_json=True, show_errors=True):
         """
         Initializes the Check class.
 
@@ -377,7 +377,3 @@ class Check:
                     colorlog.error(f"No flags are True for number {Number}. Which is impossible")
                 self.__clear_cache()
                 return None
-
-
-check = Check(use_json=False, show_errors=True)
-print(check.evaluate(1234))

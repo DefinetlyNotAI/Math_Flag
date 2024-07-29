@@ -6,8 +6,8 @@ designed to return all special mathematical flags for a number
 inputted either inputted by command line, or by calling it from a function.
 Crafted with python,
 it's an actively developed project that is
-aimed at CHANGE_ME.
-This comprehensive guide is here to equip you with everything you need to use CHANGE_ME effectively.
+aimed at simplifying math numerical flagging.
+This comprehensive guide is here to equip you with everything you need to use Math_Flag effectively.
 
 <div align="center">
     <a href="https://github.com/DefinetlyNotAI/Math_Flag/issues"><img src="https://img.shields.io/github/issues/DefinetlyNotAI/Math_Flag" alt="GitHub Issues"></a>
@@ -24,10 +24,8 @@ This comprehensive guide is here to equip you with everything you need to use CH
 
 Ensure your system meets these requirements:
 
-- CHANGE_ME.
-- CHANGE_ME.
-- CHANGE_ME.
-- CHANGE_ME.
+- Has Python 3.
+- Has required libraries.
 
 ### Step-by-Step Installation
 
@@ -40,12 +38,18 @@ Ensure your system meets these requirements:
 2. **Navigate to the Project Directory**: Change your current directory to the cloned CHANGE_ME folder:
 
    ```powershell
-   cd CHANGE_ME
+   cd Math_Flag
    ```
-
-3. **Run CHANGE_ME**: Run `./CHANGE_ME` more info below.
-
 
 ### Basic Usage
 
-CHANGE_ME
+You may import Math_Flag into your Python script as follows:
+```python
+from flag import Check
+check = Check(use_json=False, show_errors=False)
+print(check.evaluate(1234))
+```
+
+Where the following parameters are optional:
+- `use_json`: Whether to use JSON when returning results, otherwise will use simple english. Defaults to True.
+- `show_errors`: Whether to show errors or warnings from the code. Defaults to True.

@@ -50,12 +50,6 @@ leave the Explain.md file and the updating of the structure file to me.
 When making modifications to the Math_Flag project,
 please adhere to the following guidelines to ensure consistency and maintainability:
 
-### Basic Check Functions
-
-- **Limitations on Modifications**: CHANGE ME
-
-- **Restrictions**: CHANGE ME
-
 ### Documentation and Credit
 
 - **Comments and Docstrings**: Ensure that all additions and modifications are well-documented through comments and docstrings. Your contributions should be easy to understand and use, adhering to proper programming etiquette.
@@ -72,13 +66,11 @@ please adhere to the following guidelines to ensure consistency and maintainabil
 
 - **Root Folders**: Refrain from modifying root folders such as `.github` or `.git`. Maintain the integrity of the project's directory structure.
 
+- **Function Naming**: Always name your function with `_is_` prefix followed by the name of the function.
+
 ### Dependencies
 
-- **Requirement File**: CHANGE ME
-
-### Must Do's
-
-- **Final Steps**: CHANGE ME
+- **Requirement File**: Update the `requirements.txt` file with any necessary dependencies.
   
 ## Issues and labels 🛠️
 
